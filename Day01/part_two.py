@@ -1,5 +1,3 @@
-import re
-
 def extract_numbers(input_string):
     word_to_number = {
         'one': '1',
@@ -15,20 +13,23 @@ def extract_numbers(input_string):
     output = []
 
     for start_letter in range(len(input_string)):
+        if input_string[start_letter].isdigit():
+            output.append(str(input_string[start_letter]))
+            continue
+
         for next_letter in range(start_letter, len(input_string) + 1):
             current_word = input_string[start_letter:next_letter]
             if current_word in word_to_number.keys():
                 output.append(word_to_number[current_word])
-            
-        if input_string[start_letter].isdigit():
-            output.append(str(input_string[start_letter]))
+
     return output
+
 
 file = 'map.txt'
 numbers = []
 
 with open(file) as f:
-    content = f.readlines()
+    content = [line.strip() for line in f.readlines()]
 
 for line in content:
     nums = extract_numbers(line)
